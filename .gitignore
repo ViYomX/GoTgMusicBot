@@ -7,4 +7,4 @@ session
 *.s16le
 *.cache
 *.dat
-*.env
+.env
