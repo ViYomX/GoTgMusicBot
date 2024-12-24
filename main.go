@@ -73,7 +73,7 @@ func playHandler(m *tg.NewMessage) error {
 	}
 
 	msg.Edit("<code>Playing...</code>")
-	caller.Stop(m.ChatID())
+
 	call, err := caller.CreateCall(m.ChatID(), ntgcalls.MediaDescription{
 		Microphone: &ntgcalls.AudioDescription{
 			MediaSource:  ntgcalls.MediaSourceFile,
@@ -84,7 +84,8 @@ func playHandler(m *tg.NewMessage) error {
 	})
 	if err != nil {
 		if strings.Contains(err.Error(), "cannot be initialized more") {
-			caller.SetStreamSources(m.ChatID(), ntgcalls.PlaybackStream, ntgcalls.MediaDescription{
+			caller.Stop(m.ChatID())
+			call, _ = caller.CreateCall(m.ChatID(), ntgcalls.MediaDescription{
 				Microphone: &ntgcalls.AudioDescription{
 					MediaSource:  ntgcalls.MediaSourceFile,
 					SampleRate:   128000,
@@ -92,11 +93,11 @@ func playHandler(m *tg.NewMessage) error {
 					Input:        convertedFile,
 				},
 			})
+		} else {
+
+			m.Reply("Error playing file: " + err.Error())
 			return nil
 		}
-
-		m.Reply("Error playing file: " + err.Error())
-		return nil
 	}
 
 	if m.Channel != nil {
