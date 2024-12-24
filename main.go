@@ -94,7 +94,6 @@ func playHandler(m *tg.NewMessage) error {
 				},
 			})
 		} else {
-
 			m.Reply("Error playing file: " + err.Error())
 			return nil
 		}
