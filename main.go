@@ -73,6 +73,7 @@ func playHandler(m *tg.NewMessage) error {
 	}
 
 	msg.Edit("<code>Playing...</code>")
+	caller.Stop(m.ChatID())
 	call, err := caller.CreateCall(m.ChatID(), ntgcalls.MediaDescription{
 		Microphone: &ntgcalls.AudioDescription{
 			MediaSource:  ntgcalls.MediaSourceFile,
