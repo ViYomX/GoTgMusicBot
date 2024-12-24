@@ -1,55 +1,137 @@
 package main
 
 //#cgo LDFLAGS: -L . -lntgcalls -Wl,-rpath=./
-
 import "C"
 import (
 	"fmt"
-	"main/utils"
+	"main/ntgcalls"
+	"os"
+	"strings"
 
-	"github.com/amarnathcjd/gogram/telegram"
+	tg "github.com/amarnathcjd/gogram/telegram"
+	dotenv "github.com/joho/godotenv"
 )
 
+var caller *ntgcalls.Client
+var client *tg.Client
+
 func main() {
-	utils.InitEnv()
-	ub, _ := telegram.NewClient(telegram.ClientConfig{
-		AppID:         int32(utils.API_KEY),
-		AppHash:       utils.API_HASH,
-		StringSession: utils.STRING_SESSION,
-		MemorySession: true,
+	dotenv.Load()
+	caller = ntgcalls.NTgCalls()
+	defer caller.Free()
+	client, _ = tg.NewClient(tg.ClientConfig{
+		AppID:    10029733,
+		AppHash:  "d0d81009d46e774f78c0e0e622f5fa21",
+		Session:  "session",
+		LogLevel: tg.LogInfo,
+	})
+	client.Start()
+
+	bot, _ := tg.NewClient(tg.ClientConfig{
+		AppID:    10029733,
+		AppHash:  "d0d81009d46e774f78c0e0e622f5fa21",
+		Session:  "bot.dat",
+		LogLevel: tg.LogInfo,
+		Cache: tg.NewCache("bot.cache", &tg.CacheConfig{
+			LogLevel: tg.LogInfo,
+		}),
 	})
 
-	bot, _ := telegram.NewClient(telegram.ClientConfig{
-		AppID:   int32(utils.API_KEY),
-		AppHash: utils.API_HASH,
-	})
+	bot.LoginBot(os.Getenv("BOT_TOKEN"))
+	bot.On("message:/start", StartHandler)
+	bot.On("message:!play", playHandler)
 
-	bot.Conn()
-	bot.LoginBot(utils.BOT_TOKEN)
+	client.Idle()
+}
 
-	setupCallsCore()
-	ub.Log.Info("ntgcalls - core - started")
+func StartHandler(m *tg.NewMessage) error {
+	fmt.Println("Bot started")
+	m.Reply("VCPlayBot is Active!")
+	return nil
+}
 
-	url := "https://envs.sh/trq.m4a" // audio file url
-
-	media := MediaDescription{
-		Audio: &AudioDescription{
-			InputMode:     InputModeShell,
-			SampleRate:    128000,
-			BitsPerSample: 16,
-			ChannelCount:  2,
-			Input:         fmt.Sprintf("ffmpeg -i %s -loglevel panic -f s16le -ac 2 -ar 128k pipe:1", url), // ffmpeg command to convert audio to s16le format and pipe it to stdout
-		},
+func playHandler(m *tg.NewMessage) error {
+	if !m.IsReply() {
+		m.Reply("Reply to an audio file to play it!")
+		return nil
 	}
 
-	// media.Video = &VideoDescription{
-	// 	InputMode: InputModeShell,
-	// 	Input:     fmt.Sprintf("ffmpeg -i %s -loglevel panic -f rawvideo -r 24 -pix_fmt yuv420p -vf scale=1280:720 pipe:1", video),
-	// 	Width:     1280,
-	// 	Height:    720,
-	// 	Fps:       24,
-	// }
+	r, err := m.GetReplyMessage()
+	if r.Audio() == nil || err != nil {
+		m.Reply("Reply to an audio file to play it!")
+		return nil
+	}
 
-	joinGroupCall(ub, call, "@rosexchat", media)
+	msg, _ := m.Respond("<code>Downloading...</code>")
 
+	file, _ := r.Download()
+	msg.Edit("<code>Converting...</code>")
+	convertedFile, err := convertToSle3(file)
+	if err != nil {
+		m.Reply("Error converting file")
+		return nil
+	}
+
+	msg.Edit("<code>Playing...</code>")
+	call, err := caller.CreateCall(m.ChatID(), ntgcalls.MediaDescription{
+		Microphone: &ntgcalls.AudioDescription{
+			MediaSource:  ntgcalls.MediaSourceFile,
+			SampleRate:   128000,
+			ChannelCount: 2,
+			Input:        convertedFile,
+		},
+	})
+	if err != nil {
+		if strings.Contains(err.Error(), "cannot be initialized more") {
+			caller.SetStreamSources(m.ChatID(), ntgcalls.PlaybackStream, ntgcalls.MediaDescription{
+				Microphone: &ntgcalls.AudioDescription{
+					MediaSource:  ntgcalls.MediaSourceFile,
+					SampleRate:   128000,
+					ChannelCount: 2,
+					Input:        convertedFile,
+				},
+			})
+			return nil
+		}
+
+		m.Reply("Error playing file: " + err.Error())
+		return nil
+	}
+
+	if m.Channel != nil {
+		if m.Channel.Username != "" {
+			channel, _ := client.GetSendableChannel(m.Channel.Username)
+
+			fullChatRaw, _ := client.ChannelsGetFullChannel(
+				&tg.InputChannelObj{
+					ChannelID:  channel.(*tg.InputChannelObj).ChannelID,
+					AccessHash: channel.(*tg.InputChannelObj).AccessHash,
+				},
+			)
+			fullChat := fullChatRaw.FullChat.(*tg.ChannelFull)
+			callResRaw, _ := client.PhoneJoinGroupCall(
+				&tg.PhoneJoinGroupCallParams{
+					Muted:        false,
+					VideoStopped: true,
+					Call:         fullChat.Call,
+					Params: &tg.DataJson{
+						Data: call,
+					},
+					JoinAs: &tg.InputPeerUser{
+						UserID:     client.Me().ID,
+						AccessHash: client.Me().AccessHash,
+					},
+				},
+			)
+			callRes := callResRaw.(*tg.UpdatesObj)
+			for _, update := range callRes.Updates {
+				switch upd := update.(type) {
+				case *tg.UpdateGroupCallConnection:
+					_ = caller.Connect(m.ChatID(), upd.Params.Data, false)
+				}
+			}
+		}
+	}
+
+	return nil
 }

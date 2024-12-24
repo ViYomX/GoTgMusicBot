@@ -1,3 +1,6 @@
-## GoTgVcBot
+### TG VC Music / Video Player Bot 
 
-Example on using Gogram along with NTgcall to stream media files to a Telegram voice chat.
+#### Built in Golang (Gogram+NTgcalls) 
+#### POC 🎵
+
+### SET .env file BOT_TOKEN, make sure any cgo compatable compiler is installed in your system

@@ -1,2 +1,10 @@
+*.dylib
+*.db
+session
+*.mp3
+*.wav
+*.ogg
+*.s16le
+*.cache
 *.dat
-.env
+*.env
