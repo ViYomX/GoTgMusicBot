@@ -20,16 +20,16 @@ func main() {
 	caller = ntgcalls.NTgCalls()
 	defer caller.Free()
 	client, _ = tg.NewClient(tg.ClientConfig{
-		AppID:    10029733,
-		AppHash:  "d0d81009d46e774f78c0e0e622f5fa21",
-		Session:  "session",
+		AppID:    Atoi(os.Getenv("API_ID")),
+		AppHash:  Atoi(os.Getenv("API_HASH")),
+		Session:  os.Getenv("STRING_SESSION"),
 		LogLevel: tg.LogInfo,
 	})
 	client.Start()
 
 	bot, _ := tg.NewClient(tg.ClientConfig{
-		AppID:    10029733,
-		AppHash:  "d0d81009d46e774f78c0e0e622f5fa21",
+		AppID:    Atoi(os.Getenv("API_ID")),
+		AppHash:  Atoi(os.Getenv("API_HASH")),
 		Session:  "bot.dat",
 		LogLevel: tg.LogInfo,
 		Cache: tg.NewCache("bot.cache", &tg.CacheConfig{
