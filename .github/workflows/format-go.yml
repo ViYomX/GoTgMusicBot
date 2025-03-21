@@ -1,0 +1,43 @@
+name: Format Go Codes
+
+on:
+  push:
+    paths:
+      - "**.go"
+      - "**.yml"
+  workflow_dispatch:
+
+jobs:
+  Format_Go_Code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go Environment
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - name: Install Formatting Tools
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
+          go install mvdan.cc/gofumpt@latest
+
+      - name: Format Go Codes
+        run: |
+          gofmt -w .
+          goimports -w .
+          gofumpt -w .
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Format Go Codes"
+          commit_options: "--no-verify"
+          repository: .
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "41898282+github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+
+      - name: Delete old workflow runs
+        uses: Viyomx/delete-workflow-runs@v1.0.1
