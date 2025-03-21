@@ -1,8 +1,8 @@
 package main
 
 import (
-    "os/exec"
-    "strconv"
+	"os/exec"
+	"strconv"
 )
 
 func convertToSle3(file string) (string, error) {
@@ -14,9 +14,9 @@ func convertToSle3(file string) (string, error) {
 }
 
 func Atoi(s string) int {
-    i, err := strconv.Atoi(s)
-    if err != nil {
-        panic("Invalid Integar: " + s)
-    }
-    return i
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		panic("Invalid Integar: " + s)
+	}
+	return i
 }

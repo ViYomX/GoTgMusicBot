@@ -2,18 +2,22 @@ package main
 
 //#cgo LDFLAGS: -L . -lntgcalls -Wl,-rpath=./
 import "C"
+
 import (
 	"fmt"
-	"main/ntgcalls"
 	"os"
 	"strings"
+
+	"main/ntgcalls"
 
 	tg "github.com/amarnathcjd/gogram/telegram"
 	dotenv "github.com/joho/godotenv"
 )
 
-var caller *ntgcalls.Client
-var client *tg.Client
+var (
+	caller *ntgcalls.Client
+	client *tg.Client
+)
 
 func main() {
 	dotenv.Load()

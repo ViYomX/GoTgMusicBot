@@ -8,16 +8,19 @@ package ntgcalls
 //extern void handleFrame(uintptr_t ptr, int64_t chatID, int64_t sourceId, ntg_stream_mode_enum streamMode, ntg_stream_device_enum streamDevice, uint8_t* data, int size, ntg_frame_data_struct* frameData, void*);
 //extern void handleRemoteSourceChange(uintptr_t ptr, int64_t chatID, ntg_remote_source_struct remoteSource, void*);
 import "C"
+
 import (
 	"unsafe"
 )
 
-var handlerEnd = make(map[uintptr][]StreamEndCallback)
-var handlerUpgrade = make(map[uintptr][]UpgradeCallback)
-var handlerConnectionChange = make(map[uintptr][]ConnectionChangeCallback)
-var handlerSignal = make(map[uintptr][]SignalCallback)
-var handlerFrame = make(map[uintptr][]FrameCallback)
-var handlerRemoteSourceChange = make(map[uintptr][]RemoteSourceCallback)
+var (
+	handlerEnd                = make(map[uintptr][]StreamEndCallback)
+	handlerUpgrade            = make(map[uintptr][]UpgradeCallback)
+	handlerConnectionChange   = make(map[uintptr][]ConnectionChangeCallback)
+	handlerSignal             = make(map[uintptr][]SignalCallback)
+	handlerFrame              = make(map[uintptr][]FrameCallback)
+	handlerRemoteSourceChange = make(map[uintptr][]RemoteSourceCallback)
+)
 
 func NTgCalls() *Client {
 	instance := &Client{
@@ -364,7 +367,7 @@ func (ctx *Client) CpuUsage() (float64, error) {
 }
 
 func (ctx *Client) EnableGLibLoop(enable bool) {
-	//C.ntg_enable_glib_loop(C.bool(enable))
+	// C.ntg_enable_glib_loop(C.bool(enable))
 }
 
 func (ctx *Client) EnableH264Encoder(enable bool) {

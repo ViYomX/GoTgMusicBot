@@ -2,6 +2,7 @@ package ntgcalls
 
 //#include "ntgcalls.h"
 import "C"
+
 import (
 	"fmt"
 	"unsafe"

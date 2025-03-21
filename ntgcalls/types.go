@@ -3,21 +3,25 @@ package ntgcalls
 //#include "ntgcalls.h"
 import "C"
 
-type StreamType int
-type ConnectionKind int
-type ConnectionState int
-type StreamStatus int
-type StreamMode int
-type StreamDevice int
-type RemoteSourceState int
-type MediaSource int
+type (
+	StreamType        int
+	ConnectionKind    int
+	ConnectionState   int
+	StreamStatus      int
+	StreamMode        int
+	StreamDevice      int
+	RemoteSourceState int
+	MediaSource       int
+)
 
-type StreamEndCallback func(chatId int64, streamType StreamType, streamDevice StreamDevice)
-type UpgradeCallback func(chatId int64, state MediaState)
-type ConnectionChangeCallback func(chatId int64, state CallNetworkState)
-type SignalCallback func(chatId int64, signal []byte)
-type FrameCallback func(chatId int64, sourceId int64, mode StreamMode, device StreamDevice, data []byte, frameData FrameData)
-type RemoteSourceCallback func(chatId int64, source RemoteSource)
+type (
+	StreamEndCallback        func(chatId int64, streamType StreamType, streamDevice StreamDevice)
+	UpgradeCallback          func(chatId int64, state MediaState)
+	ConnectionChangeCallback func(chatId int64, state CallNetworkState)
+	SignalCallback           func(chatId int64, signal []byte)
+	FrameCallback            func(chatId int64, sourceId int64, mode StreamMode, device StreamDevice, data []byte, frameData FrameData)
+	RemoteSourceCallback     func(chatId int64, source RemoteSource)
+)
 
 const (
 	MicrophoneStream StreamDevice = iota
