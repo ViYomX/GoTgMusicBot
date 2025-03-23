@@ -16,13 +16,13 @@ var (
 func init() {
 	godotenv.Load()
 
-	APIID = Getenv("API_ID", "")
-	APIHash = Getenv("API_HASH", "")
-	BotToken = Getenv("BOT_TOKEN", "")
-	StringSession = Getenv("STRING_SESSION", "")
+	APIID = Atoi(getenv("API_ID", ""))
+	APIHash = getenv("API_HASH", "")
+	BotToken = getenv("BOT_TOKEN", "")
+	StringSession = getenv("STRING_SESSION", "")
 }
 
-func Getenv(key, defaultValue string) string {
+func getenv(key, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}
