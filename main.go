@@ -5,13 +5,11 @@ import "C"
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"main/ntgcalls"
 
 	tg "github.com/amarnathcjd/gogram/telegram"
-	dotenv "github.com/joho/godotenv"
 )
 
 var (
