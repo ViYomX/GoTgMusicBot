@@ -20,20 +20,19 @@ var (
 )
 
 func main() {
-	dotenv.Load()
 	caller = ntgcalls.NTgCalls()
 	defer caller.Free()
 	client, _ = tg.NewClient(tg.ClientConfig{
-		AppID:    Atoi(os.Getenv("API_ID")),
-		AppHash:  Atoi(os.Getenv("API_HASH")),
-		Session:  os.Getenv("STRING_SESSION"),
+		AppID:    APIID,
+		AppHash:  APIHash,
+		Session:  StringSession,
 		LogLevel: tg.LogInfo,
 	})
 	client.Start()
 
 	bot, _ := tg.NewClient(tg.ClientConfig{
-		AppID:    Atoi(os.Getenv("API_ID")),
-		AppHash:  Atoi(os.Getenv("API_HASH")),
+		AppID:    APIID,
+		AppHash:  APIHash,
 		Session:  "bot.dat",
 		LogLevel: tg.LogInfo,
 		Cache: tg.NewCache("bot.cache", &tg.CacheConfig{
@@ -41,7 +40,7 @@ func main() {
 		}),
 	})
 
-	bot.LoginBot(os.Getenv("BOT_TOKEN"))
+	bot.LoginBot(BotToken)
 	bot.On("message:/start", StartHandler)
 	bot.On("message:!play", playHandler)
 
