@@ -15,8 +15,8 @@ func StartHandler(m *tg.NewMessage) error {
 	message := fmt.Sprintf(`Hello %s 👋, I'm your Edit Guardian Bot, 
 here to maintain a secure environment for our discussions.
 
-🚫 Edited Message Deletion: I'll remove edited messages 
-to maintain transparency.
+<b>🚫 Edited Message Deletion: I'll remove edited messages 
+to maintain transparency.</b>
 
 📣 Notifications: You'll be informed each time a message is deleted.`, mention)
 
