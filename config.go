@@ -22,9 +22,9 @@ func init() {
 	APIHash = getenv("API_HASH", "")
 	BotToken = getenv("BOT_TOKEN", "")
 	StringSession = getenv("STRING_SESSION", "")
-}
- StartImageUrl = getenv("START_IMG_URL", "")
 
+ StartImageUrl = getenv("START_IMG_URL", "")
+}
 func getenv(key, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
