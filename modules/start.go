@@ -7,7 +7,7 @@ import (
 )
 
 func StartHandler(m *tg.NewMessage) error {
-    message := `Hello 👋, I'm your Edit Guardian Bot, 
+	message := `Hello 👋, I'm your Edit Guardian Bot, 
 here to maintain a secure environment for our discussions.
 
 🚫 Edited Message Deletion: I'll remove edited messages 
