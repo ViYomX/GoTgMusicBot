@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	APIID         string
+	APIID         int
 	APIHash       string
 	BotToken      string
 	StringSession string
@@ -18,11 +18,15 @@ var (
 func init() {
 	godotenv.Load()
 
-	APIID = Atoi(getenv("API_ID", ""))
+	var err error
+	APIID, err = strconv.Atoi(getenv("API_ID", "0"))
+	if err != nil {
+		panic("Invalid API_ID: " + getenv("API_ID", ""))
+	}
+
 	APIHash = getenv("API_HASH", "")
 	BotToken = getenv("BOT_TOKEN", "")
 	StringSession = getenv("STRING_SESSION", "")
-
 	StartImageUrl = getenv("START_IMG_URL", "")
 }
 
@@ -31,12 +35,4 @@ func getenv(key, defaultValue string) string {
 		return value
 	}
 	return defaultValue
-}
-
-func Atoi(s string) int {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		panic("Invalid Integar: " + s)
-	}
-	return i
 }
