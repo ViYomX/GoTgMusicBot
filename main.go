@@ -1,15 +1,13 @@
 package main
 
 import (
-	"strings"
-
 	"main/config"
 	"main/modules"
 
 	tg "github.com/amarnathcjd/gogram/telegram"
 )
-func main() {
 
+func main() {
 	bot, _ := tg.NewClient(tg.ClientConfig{
 		AppID:    config.APIID,
 		AppHash:  config.APIHash,
