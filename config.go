@@ -12,7 +12,7 @@ var (
 	APIHash       string
 	BotToken      string
 	StringSession string
- StartImageUrl string
+	StartImageUrl string
 )
 
 func init() {
@@ -23,8 +23,9 @@ func init() {
 	BotToken = getenv("BOT_TOKEN", "")
 	StringSession = getenv("STRING_SESSION", "")
 
- StartImageUrl = getenv("START_IMG_URL", "")
+	StartImageUrl = getenv("START_IMG_URL", "")
 }
+
 func getenv(key, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
