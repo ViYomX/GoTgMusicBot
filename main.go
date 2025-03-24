@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"main/config"
+ "main/modules"
 	"main/ntgcalls"
 
 	tg "github.com/amarnathcjd/gogram/telegram"
@@ -39,7 +40,7 @@ func main() {
 	})
 
 	bot.LoginBot(config.BotToken)
-	bot.On("message:/start", StartHandler)
+	bot.On("message:/start", modules.StartHandler)
 	bot.On("message:!play", playHandler)
 
 	client.Idle()
