@@ -2,7 +2,6 @@ package main
 
 import (
 	"os/exec"
-
 )
 
 func convertToSle3(file string) (string, error) {

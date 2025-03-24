@@ -2,7 +2,7 @@ package config
 
 import (
 	"os"
- "strconv"
+	"strconv"
 
 	"github.com/joho/godotenv"
 )
@@ -29,7 +29,6 @@ func getenv(key, defaultValue string) string {
 	}
 	return defaultValue
 }
-
 
 func Atoi(s string) int {
 	i, err := strconv.Atoi(s)
