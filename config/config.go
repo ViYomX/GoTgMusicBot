@@ -11,7 +11,6 @@ var (
 	APIID         int32
 	APIHash       string
 	BotToken      string
-	StringSession string
 	StartImageUrl string
 )
 
@@ -26,7 +25,6 @@ func init() {
 
 	APIHash = getenv("API_HASH", "")
 	BotToken = getenv("BOT_TOKEN", "")
-	StringSession = getenv("STRING_SESSION", "")
 	StartImageUrl = getenv("START_IMG_URL", "")
 }
 
