@@ -7,7 +7,7 @@ import (
 )
 
 func StartHandler(m *tg.NewMessage) error {
-	message := "VCPlayBot is Active!"
+	message := "I am is Active!"
 
 	if config.StartImageUrl != "" {
 		_, err := m.ReplyMedia(config.StartImageUrl, tg.MediaOptions{
