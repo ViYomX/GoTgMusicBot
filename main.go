@@ -44,19 +44,7 @@ func main() {
 	client.Idle()
 }
 
-func StartHandler(m *tg.NewMessage) error {
-	message := "VCPlayBot is Active!"
 
-	if StartImageUrl != "" {
-		m.ReplyMedia(StartImageUrl, tg.MediaOptions{
-			Caption: message,
-		})
-	} else {
-		m.Reply(message)
-	}
-
-	return nil
-}
 
 func playHandler(m *tg.NewMessage) error {
 	if !m.IsReply() {
