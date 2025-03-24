@@ -1,7 +1,7 @@
 package modules
 
 import (
-	"config"
+	"main/config"
 
 	tg "github.com/amarnathcjd/gogram/telegram"
 )
