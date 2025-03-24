@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"main/ntgcalls"
+ "main/config"
 
 	tg "github.com/amarnathcjd/gogram/telegram"
 )
@@ -20,16 +21,16 @@ func main() {
 	caller = ntgcalls.NTgCalls()
 	defer caller.Free()
 	client, _ = tg.NewClient(tg.ClientConfig{
-		AppID:    APIID,
-		AppHash:  APIHash,
-		Session:  StringSession,
+		AppID:    config.APIID,
+		AppHash:  config.APIHash,
+		Session:  config.StringSession,
 		LogLevel: tg.LogInfo,
 	})
 	client.Start()
 
 	bot, _ := tg.NewClient(tg.ClientConfig{
-		AppID:    APIID,
-		AppHash:  APIHash,
+		AppID:    config.APIID,
+		AppHash:  config.APIHash,
 		Session:  "bot.dat",
 		LogLevel: tg.LogInfo,
 		Cache: tg.NewCache("bot.cache", &tg.CacheConfig{
@@ -37,7 +38,7 @@ func main() {
 		}),
 	})
 
-	bot.LoginBot(BotToken)
+	bot.LoginBot(config.BotToken)
 	bot.On("message:/start", StartHandler)
 	bot.On("message:!play", playHandler)
 
