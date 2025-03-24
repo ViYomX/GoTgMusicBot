@@ -9,7 +9,7 @@ import (
 )
 
 func StartHandler(m *tg.NewMessage) error {
-	user := m.GetSender()
+	user, _ := m.GetSender()
 	mention := fmt.Sprintf(`<a href="tg://user?id=%d">%s</a>`, user.ID, user.FirstName)
 
 	message := fmt.Sprintf(`Hello %s 👋, I'm your Edit Guardian Bot, 
