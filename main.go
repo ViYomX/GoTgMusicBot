@@ -44,8 +44,6 @@ func main() {
 	client.Idle()
 }
 
-
-
 func playHandler(m *tg.NewMessage) error {
 	if !m.IsReply() {
 		m.Reply("Reply to an audio file to play it!")
