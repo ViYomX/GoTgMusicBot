@@ -46,9 +46,17 @@ func main() {
 }
 
 func StartHandler(m *tg.NewMessage) error {
-	fmt.Println("Bot started")
-	m.Reply("VCPlayBot is Active!")
-	return nil
+    message := "VCPlayBot is Active!"
+
+    if StartImageUrl != "" {
+        m.ReplyMedia(StartImageUrl, tg.MediaOptions{
+            Caption:   message,
+        })
+    } else {
+        m.Reply(message)
+    }
+
+    return nil
 }
 
 func playHandler(m *tg.NewMessage) error {
