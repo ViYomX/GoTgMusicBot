@@ -6,8 +6,8 @@ import "C"
 import (
 	"strings"
 
+	"main/config"
 	"main/ntgcalls"
- "main/config"
 
 	tg "github.com/amarnathcjd/gogram/telegram"
 )
