@@ -1,0 +1,43 @@
+{
+    "name": "GotgMusic",
+    "description": "Telegram Group Calls streaming bot with some useful features, written in Go with Gogram and NTgCalls.",
+    "logo": "https://graph.org/file/c0e014ff34f34d1056627.png",
+    "keywords": [
+        "golang",
+        "telegram",
+        "bot",
+        "Gotg",
+        "GotgMusicBot",
+        "telegram-bot",
+        "gogram"
+    ],
+    "stack": "container",
+    "env": {
+        "API_ID": {
+            "description": "Get this value from https://my.telegram.org",
+            "value": "",
+            "required": true
+        },
+        "API_HASH": {
+            "description": "Get this value from https://my.telegram.org",
+            "value": "",
+            "required": true
+        },
+        "BOT_TOKEN": {
+            "description": "A Bot's token. Get it from BotFather",
+            "value": "",
+            "required": true
+        },
+        "STRING_SESSION": {
+            "description": "A Gogram String Session",
+            "value": "",
+            "required": true
+        }
+    },
+    "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "basic"
+        }
+    }
+}
