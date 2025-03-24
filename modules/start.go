@@ -1,8 +1,9 @@
 package modules
 
 import (
-	tg "github.com/amarnathcjd/gogram/telegram"
 	"config"
+
+	tg "github.com/amarnathcjd/gogram/telegram"
 )
 
 func StartHandler(m *tg.NewMessage) error {
